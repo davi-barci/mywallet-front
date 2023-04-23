@@ -1,12 +1,20 @@
 import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import MyWalletLogo from "../components/MyWalletLogo"
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import UsuarioLogadoContext from "../contexts/UsuarioLogado";
 
 export default function SignUpPage() {
   const [formCadastro, setFormCadastro] = useState({email:"", senha:"", nome:"", confirmacaoSenha: ""});
+  const {usuario} = useContext(UsuarioLogadoContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if(usuario !== null){
+        navigate("/home");
+    }
+  }, []);
 
   function handleForm(e){
       setFormCadastro({...formCadastro, [e.target.name]: e.target.value});

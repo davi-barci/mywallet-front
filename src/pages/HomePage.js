@@ -10,10 +10,12 @@ export default function HomePage() {
 
   const [listaTransacoes, setListaTransacoes] = useState([]);
   const [valorTotal, setValorTotal] = useState(null);
-  const {usuario} = useContext(UsuarioLogadoContext);
+  const {usuario, setUsuario} = useContext(UsuarioLogadoContext);
   const navigate = useNavigate();
 
   useEffect(() => {
+    if(usuario === null) return navigate("/");
+
     const config = {
         headers: {
             Authorization: `Bearer ${usuario.token}`
@@ -33,12 +35,20 @@ export default function HomePage() {
         alert("Ocorreu um erro durante o carregamento das transações!");
     });
   }, [listaTransacoes]);
+  
+  function logoutApp(){
+      if (window.confirm("Você realmente deseja sair dessa conta?")){
+          localStorage.removeItem("usuario");
+          setUsuario(null);
+          navigate("/");
+      }
+  }
 
   return (
     <HomeContainer>
       <Header>
-        <h1>Olá, {usuario.usuario}</h1>
-        <BiExit />
+        <h1>Olá, {(usuario !== null) && usuario.usuario}</h1>
+        <BiExit onClick={logoutApp}/>
       </Header>
 
       <TransactionsContainer>

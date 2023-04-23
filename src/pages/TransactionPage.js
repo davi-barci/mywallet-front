@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import UsuarioLogadoContext from "../contexts/UsuarioLogado";
@@ -9,6 +9,10 @@ export default function TransactionsPage() {
   const [formTransaction, setFormTransaction] = useState({valor:"", descricao:""});
   const {usuario} = useContext(UsuarioLogadoContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if(usuario === null) return navigate("/");
+  }, []);
 
   function handleForm(e){
     setFormTransaction({...formTransaction, [e.target.name]: e.target.value});
