@@ -1,12 +1,20 @@
 import styled from "styled-components"
 import { Link, useNavigate } from "react-router-dom"
 import MyWalletLogo from "../components/MyWalletLogo"
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import UsuarioLogadoContext from "../contexts/UsuarioLogado";
 import axios from "axios";
 
 export default function SignInPage() {
   const [formLogin, setFormLogin] = useState({email:"", senha:""});
+  const {usuario, setUsuario} = useContext(UsuarioLogadoContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if(usuario !== null){
+        navigate("/home");
+    }
+  }, []);
 
   function handleForm(e){
       setFormLogin({...formLogin, [e.target.name]: e.target.value});
@@ -19,8 +27,10 @@ export default function SignInPage() {
       .post(`${process.env.REACT_APP_API_URL}/`, formLogin)
       .then(res => {
           localStorage.setItem("usuario", JSON.stringify({
+              usuario: res.data.nomeUsuario,
               token: res.data.token
           }));
+          setUsuario({usuario: res.data.nomeUsuario, token: res.data.token});
           navigate("/home");
       })
       .catch(err => {

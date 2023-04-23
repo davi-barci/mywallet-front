@@ -1,37 +1,60 @@
 import styled from "styled-components"
 import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import UsuarioLogadoContext from "../contexts/UsuarioLogado";
 
 export default function HomePage() {
+
+  const [listaTransacoes, setListaTransacoes] = useState([]);
+  const [valorTotal, setValorTotal] = useState(null);
+  const {usuario} = useContext(UsuarioLogadoContext);
+
+  useEffect(() => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${usuario.token}`
+        }
+    };
+
+    axios
+    .get(`${process.env.REACT_APP_API_URL}/home`, config)
+    .then(res => {
+      setListaTransacoes(res.data);
+      const totalEntrada = res.data.filter(elem => elem.tipo === "entrada").reduce(function (acc, obj) { return acc + obj.valor; }, 0);
+      const totalSaida = res.data.filter(elem => elem.tipo === "saida").reduce(function (acc, obj) { return acc + obj.valor; }, 0);
+      setValorTotal(totalEntrada-totalSaida);
+    })
+    .catch(err => {
+        console.log(err);
+        alert("Ocorreu um erro durante o carregamento das transações!");
+    });
+  }, [listaTransacoes]);
+
   return (
     <HomeContainer>
       <Header>
-        <h1>Olá, Fulano</h1>
+        <h1>Olá, {usuario.usuario}</h1>
         <BiExit />
       </Header>
 
       <TransactionsContainer>
         <ul>
-          <ListItemContainer>
-            <div>
-              <span>30/11</span>
-              <strong>Almoço mãe</strong>
-            </div>
-            <Value color={"negativo"}>120,00</Value>
-          </ListItemContainer>
-
-          <ListItemContainer>
-            <div>
-              <span>15/11</span>
-              <strong>Salário</strong>
-            </div>
-            <Value color={"positivo"}>3000,00</Value>
-          </ListItemContainer>
+          {listaTransacoes.map((op, index) => 
+            <ListItemContainer key={index}>
+              <div>
+                <span>{op.data}</span>
+                <strong>{op.descricao}</strong>
+              </div>
+              <Value color={(op.tipo === "entrada") ? "positivo" : "negativo"}>{op.valor}</Value>
+            </ListItemContainer>
+          )}
         </ul>
 
         <article>
           <strong>Saldo</strong>
-          <Value color={"positivo"}>2880,00</Value>
+          <Value color={(valorTotal > 0) ? "positivo" : "negativo"}>{valorTotal}</Value>
         </article>
       </TransactionsContainer>
 
