@@ -4,12 +4,14 @@ import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import UsuarioLogadoContext from "../contexts/UsuarioLogado";
+import { useNavigate } from "react-router-dom";
 
 export default function HomePage() {
 
   const [listaTransacoes, setListaTransacoes] = useState([]);
   const [valorTotal, setValorTotal] = useState(null);
   const {usuario} = useContext(UsuarioLogadoContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const config = {
@@ -47,24 +49,24 @@ export default function HomePage() {
                 <span>{op.data}</span>
                 <strong>{op.descricao}</strong>
               </div>
-              <Value color={(op.tipo === "entrada") ? "positivo" : "negativo"}>{op.valor}</Value>
+              <Value color={(op.tipo === "entrada") ? "positivo" : "negativo"}>{op.valor.toFixed(2).replace('.', ',')}</Value>
             </ListItemContainer>
           )}
         </ul>
 
         <article>
           <strong>Saldo</strong>
-          <Value color={(valorTotal > 0) ? "positivo" : "negativo"}>{valorTotal}</Value>
+          <Value color={(valorTotal > 0) ? "positivo" : "negativo"}>{(valorTotal === null) ? "00,00" : valorTotal.toFixed(2).replace('.', ',')}</Value>
         </article>
       </TransactionsContainer>
 
 
       <ButtonsContainer>
-        <button>
+        <button onClick={() => navigate("/nova-transacao/entrada")}>
           <AiOutlinePlusCircle />
           <p>Nova <br /> entrada</p>
         </button>
-        <button>
+        <button onClick={() => navigate("/nova-transacao/saida")}>
           <AiOutlineMinusCircle />
           <p>Nova <br />saída</p>
         </button>
