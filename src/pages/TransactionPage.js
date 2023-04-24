@@ -29,8 +29,6 @@ export default function TransactionsPage() {
 
     formTransaction.valor = Number(formTransaction.valor);
 
-    console.log(formTransaction);
-
     axios
     .post(`${process.env.REACT_APP_API_URL}/nova-transacao/${tipo}`, formTransaction, config)
     .then(res => {

@@ -51,23 +51,28 @@ export default function HomePage() {
         <BiExit onClick={logoutApp}/>
       </Header>
 
-      <TransactionsContainer>
-        <ul>
-          {listaTransacoes.map((op, index) => 
-            <ListItemContainer key={index}>
-              <div>
-                <span>{op.data}</span>
-                <strong>{op.descricao}</strong>
-              </div>
-              <Value color={(op.tipo === "entrada") ? "positivo" : "negativo"}>{op.valor.toFixed(2).replace('.', ',')}</Value>
-            </ListItemContainer>
-          )}
-        </ul>
+      <TransactionsContainer display={(listaTransacoes.length === 0) ? "center" : "space-between"}>
+        {(listaTransacoes.length !== 0) ?
+          <>
+            <ul>
+              {listaTransacoes.map((op, index) => 
+                <ListItemContainer key={index}>
+                  <div>
+                    <span>{op.data}</span>
+                    <strong>{op.descricao}</strong>
+                  </div>
+                  <Value color={(op.tipo === "entrada") ? "positivo" : "negativo"}>{op.valor.toFixed(2).replace('.', ',')}</Value>
+                </ListItemContainer>
+              )}
+            </ul>
 
-        <article>
-          <strong>Saldo</strong>
-          <Value color={(valorTotal > 0) ? "positivo" : "negativo"}>{(valorTotal === null) ? "00,00" : valorTotal.toFixed(2).replace('.', ',')}</Value>
-        </article>
+            <article>
+              <strong>Saldo</strong>
+              <Value color={(valorTotal >= 0) ? "positivo" : "negativo"}>{(valorTotal === null) ? "00,00" : valorTotal.toFixed(2).replace('.', ',')}</Value>
+            </article>
+          </>
+        : <p>Não há registros de entrada ou saída</p>
+        }
       </TransactionsContainer>
 
 
@@ -89,7 +94,7 @@ export default function HomePage() {
 const HomeContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 50px);
+  height: 100vh;
 `
 const Header = styled.header`
   display: flex;
@@ -108,7 +113,13 @@ const TransactionsContainer = styled.article`
   padding: 16px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: ${props => props.display};
+  align-items: ${props => props.display};
+  ul{
+    height: 400px;
+    margin-bottom: 16px;
+    overflow-y: auto;
+  }
   article {
     display: flex;
     justify-content: space-between;   
@@ -116,6 +127,17 @@ const TransactionsContainer = styled.article`
       font-weight: 700;
       text-transform: uppercase;
     }
+  }
+  p{
+    width: 180px;
+    height: 46px;
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 23px;
+    text-align: center;
+    color: #868686;
   }
 `
 const ButtonsContainer = styled.section`

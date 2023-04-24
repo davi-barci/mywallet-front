@@ -70,6 +70,7 @@ export default function SignUpPage() {
           type="password" 
           autoComplete="new-password" 
           name="senha"
+          minLength="3"
           value={formCadastro.senha}
           onChange={handleForm}
           required
@@ -79,6 +80,7 @@ export default function SignUpPage() {
           type="password" 
           autoComplete="new-password" 
           name="confirmacaoSenha"
+          minLength="3"
           value={formCadastro.confirmacaoSenha}
           onChange={handleForm}
           required
