@@ -12,7 +12,6 @@ export default function App() {
   const [usuario, setUsuario] = useState((localStorage.getItem("usuario")) ? (JSON.parse(localStorage.getItem("usuario"))) : null);
 
   return (
-    <PagesContainer>
       <BrowserRouter>
         <UsuarioLogadoContext.Provider value={{usuario, setUsuario}}>
           <Routes>
@@ -23,13 +22,7 @@ export default function App() {
           </Routes>
         </UsuarioLogadoContext.Provider>
       </BrowserRouter>
-    </PagesContainer>
   )
 }
 
-const PagesContainer = styled.main`
-  background-color: #8c11be;
-  width: calc(100vw - 50px);
-  max-height: 100vh;
-  padding: 25px;
-`
+

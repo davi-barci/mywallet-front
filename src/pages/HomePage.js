@@ -78,7 +78,7 @@ export default function HomePage() {
 
       <ButtonsContainer>
         <button onClick={() => navigate("/nova-transacao/entrada")}>
-          <AiOutlinePlusCircle />
+          <AiOutlinePlusCircle/>
           <p>Nova <br /> entrada</p>
         </button>
         <button onClick={() => navigate("/nova-transacao/saida")}>
@@ -94,38 +94,62 @@ export default function HomePage() {
 const HomeContainer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   height: 100vh;
+  background-color: #8C11BE;
 `
 const Header = styled.header`
+  width: calc(100% - 50px);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 2px 5px 2px;
-  margin-bottom: 15px;
+  margin-top: 15px;
+  margin-bottom: 22px;
   font-size: 26px;
   color: white;
+
+  svg{
+    cursor: pointer;
+  }
+
+  h1{
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 31px;
+  }
+
 `
-const TransactionsContainer = styled.article`
-  flex-grow: 1;
+const TransactionsContainer = styled.div`
+  width: calc(100% - 50px);
+  height: 446px;
   background-color: #fff;
   color: #000;
   border-radius: 5px;
-  padding: 16px;
   display: flex;
   flex-direction: column;
+  margin-bottom: 13px;
   justify-content: ${props => props.display};
   align-items: ${props => props.display};
   ul{
     height: 400px;
     margin-bottom: 16px;
     overflow-y: auto;
+    margin-top: 23px;
   }
   article {
     display: flex;
-    justify-content: space-between;   
+    justify-content: space-between; 
+    margin-bottom: 10px;
+
     strong {
       font-weight: 700;
       text-transform: uppercase;
+      margin-left: 11px;
+    }
+    div{
+      margin-right: 11px;
     }
   }
   p{
@@ -141,9 +165,8 @@ const TransactionsContainer = styled.article`
   }
 `
 const ButtonsContainer = styled.section`
-  margin-top: 15px;
-  margin-bottom: 0;
   display: flex;
+  width: calc(100% - 50px);
   gap: 15px;
   
   button {
@@ -154,8 +177,19 @@ const ButtonsContainer = styled.section`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    background: #A328D6;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    cursor: pointer;
     p {
       font-size: 18px;
+      margin-bottom: 9px;
+    }
+    svg{
+      width:25px;
+      height:25px;
+      margin-top: 9px;
     }
   }
 `
@@ -170,9 +204,13 @@ const ListItemContainer = styled.li`
   align-items: center;
   margin-bottom: 8px;
   color: #000000;
-  margin-right: 10px;
+
   div span {
     color: #c6c6c6;
     margin-right: 10px;
+    margin-left: 11px;
+  }
+  >div:nth-of-type(2){
+    margin-right: 11px;
   }
 `
