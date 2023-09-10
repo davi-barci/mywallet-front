@@ -6,7 +6,7 @@
 
 -   [Project Description](#-project-description)
 -   [Status of work](#-status-of-work)
--   [Technologies](#-technologies)
+-   [Features](#-features)
 -   [Build with](#%EF%B8%8F-build-with)
 -   [Contact](#-contact)
 
@@ -18,7 +18,7 @@
 
 ![status](https://github.com/davi-barci/mywallet-front/assets/121765281/ad19d60f-6afe-4d8b-93a7-e3133637523d)
 
-## ✅ Technologies
+## ✅ Features
 
 -   [x] `Sign Up` - Receives username, avatar, email and password.
 
